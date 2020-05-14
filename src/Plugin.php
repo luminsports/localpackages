@@ -79,6 +79,8 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         $installed = $this->composer->getRepositoryManager()->getLocalRepository();
 
         foreach ($this->getManagedPackages() as $package) {
+            $package->setInstallationSource('dist');
+
             $original = $installed->findPackage($package->getName(), '*');
             $originalPackage = $original instanceof AliasPackage ? $original->getAliasOf() : $original;
 
@@ -124,6 +126,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
 
             foreach ($this->getManagedPackages() as $package) {
                 $this->write('Loading package ' . $package->getName());
+
                 $this->localPackages[$package->getName()] = [
                     'local' => $package,
                 ];
