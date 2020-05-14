@@ -22,7 +22,7 @@
         }
     },
     "require": {
-        "composer-plugin-api": "^1.0"
+        "composer-plugin-api": "^2.0"
     },
     "require-dev": {
         "composer/composer": "dev-master",
@@ -30,7 +30,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0.x-dev"
+            "dev-master": "2.0.x-dev"
         },
         "class": "LocalPackages\\Plugin"
     }

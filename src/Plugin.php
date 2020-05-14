@@ -14,6 +14,7 @@ use Composer\Repository\CompositeRepository;
 use Composer\Repository\InstalledFilesystemRepository;
 use Composer\Repository\PathRepository;
 use Composer\Repository\WritableRepositoryInterface;
+use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
 use Composer\Util\Filesystem;
 
@@ -60,8 +61,10 @@ class Plugin implements PluginInterface, EventSubscriberInterface
      *
      * After `composer update`, we replace all packages that can also be found
      * in paths managed by LocalPackages with symlinks to those paths.
+     *
+     * @param \Composer\Script\Event $event
      */
-    public function symlinkLocalPackages()
+    public function symlinkLocalPackages(Event $event)
     {
         // Create symlinks for all left-over packages in vendor/composer/LocalPackages
         $destination = $this->composer->getConfig()->get('vendor-dir') . '/composer/local-packages';
@@ -89,7 +92,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
             $installationManager->getInstaller($package->getType())->install($localPackagesRepo, $package);
         }
 
-        $localPackagesRepo->write();
+        $localPackagesRepo->write($event->isDevMode(), $installationManager);
     }
 
     /**
@@ -207,5 +210,15 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     private function write($msg)
     {
         $this->io->write("[LocalPackages] $msg");
+    }
+
+    public function deactivate(Composer $composer, IOInterface $io)
+    {
+        // TODO: Implement deactivate() method.
+    }
+
+    public function uninstall(Composer $composer, IOInterface $io)
+    {
+        // TODO: Implement uninstall() method.
     }
 }
