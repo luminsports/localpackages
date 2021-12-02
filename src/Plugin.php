@@ -204,7 +204,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
      */
     private function getManagedPaths()
     {
-        $targetDir = realpath($this->composer->getPackage()->getTargetDir());
+        $targetDir = realpath($this->composer->getPackage()->getTargetDir() ?: '');
         $config = Config::make(sprintf('%s/%s', $targetDir, Config::FILENAME));
 
         return $config->getPaths();
