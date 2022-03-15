@@ -1,5 +1,5 @@
 {
-    "name": "ryzr/localpackages",
+    "name": "luminsports/localpackages",
     "description": "Automatically symlink composer packages post-install/update for easier local development",
     "keywords": ["composer", "development", "workflow"],
     "type": "composer-plugin",
