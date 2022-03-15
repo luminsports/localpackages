@@ -6,8 +6,8 @@ Automatically symlink composer packages post-install/update for easier local dev
 
 LocalPackages can be installed globally or per project, with Composer:
 
-Globally (recommended): `composer global require ryzr/localpackages`
-Per project: `composer require --dev ryzr/localpackages`
+Globally (recommended): `composer global require luminsports/localpackages`
+Per project: `composer require --dev luminsports/localpackages`
 
 ## Usage
 
@@ -35,14 +35,6 @@ If anything weird happens and you get stuck, try `rm -r vendor/ composer.lock &&
 This code is published under the [MIT License](http://opensource.org/licenses/MIT).
 This means you can do almost anything with it, as long as the copyright notice and the accompanying license file is left intact.
 
-## Contributing
-
-I wish I had more time for open-source contributions, but unfortunately I don't. Currently, this package serves my needs, and thus won't receive many/any feature updates.
-
-However, if you run into any bugs, feel free to open an issue to bring my attention to it, or even better, submit a pull-request.
-
 ## Thanks
 
 This package is a super-simplified version of [franzl/studio](https://github.com/franzliedke/studio).
-
-The only difference is a couple of fixes for my needs, and a bunch of stuff removed that I didn't need. Check it out, as it may suit you better.
