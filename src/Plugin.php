@@ -90,8 +90,13 @@ class Plugin implements PluginInterface, EventSubscriberInterface
                 $originalPackage->setDistType('path');
             }
 
-            $installationManager->getInstaller($original->getType())->uninstall($installed, $original);
-            $installationManager->getInstaller($package->getType())->install($localPackagesRepo, $package);
+            $this->retry(function () use ($installationManager, $original, $installed) {
+                $installationManager->getInstaller($original->getType())->uninstall($installed, $original);
+            });
+
+            $this->retry(function () use ($installationManager, $package, $localPackagesRepo) {
+                $installationManager->getInstaller($package->getType())->install($localPackagesRepo, $package);
+            });
         }
 
         $localPackagesRepo->write($event->isDevMode(), $installationManager);
@@ -208,6 +213,21 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         $config = Config::make(sprintf('%s/%s', $targetDir, Config::FILENAME));
 
         return $config->getPaths();
+    }
+
+    protected function retry($f, $delay = 3, $retries = 5)
+    {
+        try {
+            return $f();
+        } catch (\Throwable $e) {
+            if ($retries > 0) {
+                sleep($delay);
+
+                return $this->retry($f, $delay, $retries - 1);
+            } else {
+                throw $e;
+            }
+        }
     }
 
     private function write($msg)
