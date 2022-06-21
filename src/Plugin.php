@@ -13,6 +13,7 @@ use Composer\Plugin\PluginInterface;
 use Composer\Repository\CompositeRepository;
 use Composer\Repository\InstalledFilesystemRepository;
 use Composer\Repository\PathRepository;
+use Composer\Repository\RepositoryFactory;
 use Composer\Repository\WritableRepositoryInterface;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
@@ -188,10 +189,11 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         // Get array of PathRepository instances for LocalPackages-managed paths
         $managed = [];
         foreach ($this->getManagedPaths() as $path) {
-            $managed[] = new PathRepository(
-                ['url' => $path],
+            $managed[] = RepositoryFactory::createRepo(
                 $this->io,
-                $composerConfig
+                $composerConfig,
+                ['type' => 'path', 'url' => $path],
+                $this->composer->getRepositoryManager()
             );
         }
 
